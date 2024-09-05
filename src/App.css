@@ -1,9 +1,31 @@
 ul {
   display: flex;
   flex-wrap: wrap;
+  color:red;
 }
 
 li {
   list-style: none;
   margin: 10px;
+}
+
+body {
+background-color: black;
+}
+
+H1 {
+  color: greenyellow;
+}
+
+h2 {
+  color: red;
+}
+h3 {
+  color: greenyellow;
+  opacity: .75;
+}
+
+p {
+  color: greenyellow;
+  opacity: .5;
 }

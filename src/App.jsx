@@ -1,8 +1,13 @@
 // src/App.jsx
+import { useState } from "react";
+import './App.css'
+
 
 const App = () => {
 const [team, setTeam] = useState([])
 const [money, setMoney] = useState(100)
+const [totalStrength, setTotalStrength] = useState(0);
+const [totalAgility, setTotalAgility] = useState(0);
 const [zombieFighters, setZombieFighters] = useState([
   {
     name: 'Survivor',
@@ -76,8 +81,65 @@ const [zombieFighters, setZombieFighters] = useState([
   },
 ]);
 
+const handleAddFighter = (fighter) => {
+  if (money >= fighter.price) {
+    setTeam([...team, fighter]);
+    setMoney(money - fighter.price);
+    setTotalStrength(totalStrength + fighter.strength);
+    setTotalAgility(totalAgility + fighter.agility);
+  } else {
+    console.log("Not enough money");
+  }
+};
+
+const handleRemoveFighter = (fighterToRemove) => {
+  const updatedTeam = team.filter((fighter) => fighter.name !== fighterToRemove.name);
+  setTeam(updatedTeam);
+  setMoney(money + fighterToRemove.price);
+  setTotalStrength(totalStrength - fighterToRemove.strength);
+  setTotalAgility(totalAgility - fighterToRemove.agility);
+};
+
   return (
-    <h1>Hello world!</h1>
+    <div>
+    <h1>Zombie Fighters</h1>
+    <h3>Money: ${money}</h3>
+      <h3>Total Team Strength: {totalStrength}</h3>
+      <h3>Total Team Agility: {totalAgility}</h3>
+      <h2>Your Team</h2>
+
+    {team.length === 0 ? (
+      <p>Pick some team members!</p>
+
+    ) : (
+      <ul>
+        {team.map((fighter, index) => (
+          <li key={index}>
+            <img src={fighter.image} alt={fighter.name} width="50" />
+            <p>Name: {fighter.name}</p>
+            <p>Price: ${fighter.price}</p>
+            <p>Strength: {fighter.strength}</p>
+            <p>Agility: {fighter.agility}</p>
+            <button onClick={() => handleRemoveFighter(fighter)}>Remove</button>
+          </li>
+        ))}
+      </ul>
+    )}
+
+    <h2>Fighters</h2>
+    <ul>
+      {zombieFighters.map((fighter, index) => (
+        <li key={index}>
+          <img src={fighter.image} alt={fighter.name} width="50" />
+          <p>Name: {fighter.name}</p>
+          <p>Price: ${fighter.price}</p>
+          <p>Strength: {fighter.strength}</p>
+          <p>Agility: {fighter.agility}</p>
+          <button onClick={() => handleAddFighter(fighter)}>Add</button>
+        </li>
+      ))}
+    </ul>
+  </div>
   );
 }
 
